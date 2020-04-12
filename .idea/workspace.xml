@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ef414fdf-7653-408b-ba73-5673db441e66" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/edu/boisestate/cs410/gradebook/GradeBookShell/GradeBookShell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/edu/boisestate/cs410/gradebook/GradeBookShell/GradeBookShell.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/edu/boisestate/cs410/gradebook/GradeBookShell/GradeBookShell.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/edu/boisestate/cs410/gradebook/GradeBookShell/GradeBookShell.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/edu/boisestate/cs410/gradebook/GradeBookShell/GradeBookShell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/boisestate/cs410/gradebook/GradeBookShell/GradeBookShell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/edu/boisestate/cs410/gradebook/GradeBookShell/GradeBookShell.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +59,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/main/java/edu/boisestate/cs410/gradebook" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -76,7 +73,7 @@
   </component>
   <component name="RunManager">
     <configuration name="GradeBookShell" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="main.java.edu.boisestate.cs410.gradebook.GradeBookShell.GradeBookShell" />
+      <option name="MAIN_CLASS_NAME" value="edu.boisestate.cs410.gradebook.GradeBookShell.GradeBookShell" />
       <module name="Gradebook" />
       <option name="PROGRAM_PARAMETERS" value="&quot;postgresql://localhost:35954/Final Project&quot;" />
       <method v="2">
@@ -99,7 +96,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1586702774813</updated>
-      <workItem from="1586702778719" duration="6905000" />
+      <workItem from="1586702778719" duration="7165000" />
     </task>
     <servers />
   </component>
@@ -111,10 +108,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="362" y="71" key="#Project_Structure/0.0.1536.824@0.0.1536.824" timestamp="1586703018854" />
-    <state x="113" y="136" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586722869394">
+    <state x="113" y="136" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586723129699">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="113" y="136" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1586722869394" />
+    <state x="113" y="136" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1586723129699" />
     <state x="399" y="216" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1586704526821">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -123,30 +120,30 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="438" y="186" key="#com.intellij.ide.macro.MacrosDialog/0.0.1536.824@0.0.1536.824" timestamp="1586722788031" />
-    <state width="1493" height="195" key="GridCell.Tab.0.bottom" timestamp="1586722838686">
+    <state width="1493" height="195" key="GridCell.Tab.0.bottom" timestamp="1586723136842">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="195" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1586722838686" />
-    <state width="1493" height="195" key="GridCell.Tab.0.center" timestamp="1586722838686">
+    <state width="1493" height="195" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1586723136842" />
+    <state width="1493" height="195" key="GridCell.Tab.0.center" timestamp="1586723136842">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="195" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1586722838686" />
-    <state width="1493" height="195" key="GridCell.Tab.0.left" timestamp="1586722838686">
+    <state width="1493" height="195" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1586723136842" />
+    <state width="1493" height="195" key="GridCell.Tab.0.left" timestamp="1586723136842">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="195" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1586722838686" />
-    <state width="1493" height="195" key="GridCell.Tab.0.right" timestamp="1586722838686">
+    <state width="1493" height="195" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1586723136842" />
+    <state width="1493" height="195" key="GridCell.Tab.0.right" timestamp="1586723136842">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="195" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1586722838686" />
+    <state width="1493" height="195" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1586723136842" />
     <state x="278" y="55" key="SettingsEditor" timestamp="1586703154169">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="278" y="55" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1586703154169" />
-    <state x="584" y="191" key="chooseDestDirectoryDialog" timestamp="1586704229417">
+    <state x="584" y="191" key="chooseDestDirectoryDialog" timestamp="1586723009557">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="584" y="191" key="chooseDestDirectoryDialog/0.0.1536.824@0.0.1536.824" timestamp="1586704229417" />
+    <state x="584" y="191" key="chooseDestDirectoryDialog/0.0.1536.824@0.0.1536.824" timestamp="1586723009557" />
     <state x="466" y="237" key="com.intellij.ide.util.TipDialog" timestamp="1586702779651">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
