@@ -1,0 +1,88 @@
+-- Final Project -----------------------------------------------
+
+-- Create Table Statements
+CREATE TABLE Class(class_id SERiAL PRIMARY KEY UNIQUE, course_number VARCHAR(20) NOT NULL,
+ term VARCHAR(20) NOT NULL, section_number VARCHAR(20) NOT NULL, num_credits INTEGER, description TEXT);
+
+CREATE TABLE Student(username VARCHAR(100) NOT NULL, student_id VARCHAR(9) PRIMARY KEY UNIQUE,
+name VARCHAR(100) NOT NULL, class_id INTEGER REFERENCES class(class_id));
+
+CREATE TABLE Items(id SERIAL PRIMARY KEY UNIQUE, name VARCHAR(100) NOT NULL, category_name VARCHAR(50) REFERENCES Categories(name),
+description TEXT NOT NULL, point_value INTEGER NOT NULL );
+
+CREATE TABLE Categories(id SERIAL PRIMARY KEY UNIQUE, name VARCHAR(50) NOT NULL UNIQUE, weight VARCHAR(5) NOT NULL);
+
+-- Category INSERT Statements
+INSERT INTO Categories(name, weight)
+VALUES('midterm', '15%');
+
+INSERT INTO Categories(name, weight)
+VALUES('final', '25%');
+
+INSERT INTO Categories(name, weight)
+VALUES('project', '15%');
+
+SELECT * FROM Categories;
+
+-- Class INSERT Statements
+INSERT INTO Class(course_number, term, section_number, num_credits, description)
+VALUES('CS410', 'SP20', '1', 3, 'Databases');
+
+INSERT INTO Class(course_number, term, section_number, num_credits, description)
+VALUES('CS510', 'SP20', '1', 3, 'Databases for Graduates');
+
+SELECT * FROM Class;
+
+--Student INSERT Statements
+INSERT INTO Student(username, student_id, name, class_id)
+VALUES('larry123', '1', 'Wheels, Larry', 1);
+
+INSERT INTO Student(username, student_id, name, class_id)
+VALUES('sarah123', '2', 'Nera, Sarah', 2);
+
+INSERT INTO Student(username, student_id, name, class_id)
+VALUES('mary123', '3', 'Cary, Mary', 2);
+
+SELECT * FROM Student;
+
+--Item INSERT Statements
+INSERT INTO Items(name, category_name, description, point_value)
+VALUES('midterm 1', 'midterm', 'First midterm of semester', 100);
+
+INSERT INTO Items(name, category_name, description, point_value)
+VALUES('Grades Database', 'project', 'First project of the semester', 50);
+
+SELECT * FROM Items;
+
+-------------------------------------------------------------------------------------
+--Query Tests
+
+
+-----------------------Class Management----------------------------------------------
+
+-- Create a class: new-class CS410 Sp20 1 "Databases"
+INSERT INTO Class(course_number, term, section_number, num_credits, description)
+VALUES('CS410', 'SP20', '1', 3, 'Databases');
+
+-- List classes, with the # of students in each: list-classes
+SELECT course_number as class, COUNT(Student.class_id) as num_students FROM Class
+JOIN Student USING (class_id)
+GROUP BY course_number, class_id;
+
+-- select-class CS410 selects the only section of CS410 in the most recent
+-- term, if there is only one such section; if there are multiple sections it fails.
+SELECT * FROM Class
+WHERE course_number='CS410' AND term='SP20';
+
+-- select-class CS410 Sp20 selects the only section of CS410 in Spring 2020;
+-- if there are multiple such sections, it fails.
+SELECT * FROM Class
+WHERE course_number='CS410' AND term='SP20';
+
+-- select-class CS410 Sp20 1 selects a specific section
+SELECT * FROM Class
+WHERE course_number='CS410' AND term='SP20' AND section_number='1';
+
+-- show-class shows the currently-active class
+SELECT * FROM Class
+WHERE term='SP20';
