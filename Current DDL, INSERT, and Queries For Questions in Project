@@ -4,13 +4,16 @@
 CREATE TABLE Class(class_id SERiAL PRIMARY KEY UNIQUE, course_number VARCHAR(20) NOT NULL,
  term VARCHAR(20) NOT NULL, section_number VARCHAR(20) NOT NULL, num_credits INTEGER, description TEXT);
 
-CREATE TABLE Student(username VARCHAR(100) NOT NULL, student_id VARCHAR(9) PRIMARY KEY UNIQUE,
+CREATE TABLE Student(username VARCHAR(100) NOT NULL UNIQUE, student_id VARCHAR(9) PRIMARY KEY UNIQUE,
 name VARCHAR(100) NOT NULL, class_id INTEGER REFERENCES class(class_id));
 
-CREATE TABLE Items(id SERIAL PRIMARY KEY UNIQUE, name VARCHAR(100) NOT NULL, category_name VARCHAR(50) REFERENCES Categories(name),
-description TEXT NOT NULL, point_value INTEGER NOT NULL );
+CREATE TABLE Items(id SERIAL PRIMARY KEY UNIQUE, name VARCHAR(100) NOT NULL UNIQUE, category_name VARCHAR(50) REFERENCES Categories(name),
+description TEXT NOT NULL, point_value INTEGER NOT NULL);
 
 CREATE TABLE Categories(id SERIAL PRIMARY KEY UNIQUE, name VARCHAR(50) NOT NULL UNIQUE, weight VARCHAR(5) NOT NULL);
+
+CREATE TABLE Student_Graded_Items(grade_id SERIAL PRIMARY KEY, itemname VARCHAR(50) REFERENCES items(name),
+username VARCHAR(50) REFERENCES Student(username), points INTEGER);
 
 -- Category INSERT Statements
 INSERT INTO Categories(name, weight)
@@ -21,6 +24,9 @@ VALUES('final', '25%');
 
 INSERT INTO Categories(name, weight)
 VALUES('project', '15%');
+
+INSERT INTO Categories(name, weight)
+VALUES('Quiz', '10%');
 
 SELECT * FROM Categories;
 
@@ -43,6 +49,12 @@ VALUES('sarah123', '2', 'Nera, Sarah', 2);
 INSERT INTO Student(username, student_id, name, class_id)
 VALUES('mary123', '3', 'Cary, Mary', 2);
 
+INSERT INTO Student(username, student_id, name, class_id)
+VALUES ('bEKSs123', 4, 'Barry, Bell', 2);
+
+INSERT INTO Student(username, student_id, name, class_id)
+VALUES ('bells123', 5, 'Barry, Beksll', 2);
+
 SELECT * FROM Student;
 
 --Item INSERT Statements
@@ -52,13 +64,28 @@ VALUES('midterm 1', 'midterm', 'First midterm of semester', 100);
 INSERT INTO Items(name, category_name, description, point_value)
 VALUES('Grades Database', 'project', 'First project of the semester', 50);
 
+INSERT INTO Items(name, category_name, description, point_value)
+VALUES('project 2', 'project', 'Second Project of the semester', 50);
+
+INSERT INTO Items(name, category_name, description, point_value)
+VALUES('Quiz 2', 'Quiz', 'Second quiz of the semester',10);
+
 SELECT * FROM Items;
+
+--Student_Graded_Items INSERT statements
+INSERT INTO Student_Graded_Items(itemname, username, points)
+VALUES('Quiz 2', 'larry123', 8);
+
+INSERT INTO Student_Graded_Items(itemname, username, points)
+VALUES('midterm 1', 'larry123', 90);
+
+SELECT * FROM Student_Graded_Items;
 
 -------------------------------------------------------------------------------------
 --Query Tests
 
 
------------------------Class Management----------------------------------------------
+--Class Management---------------------------------------------------------------
 
 -- Create a class: new-class CS410 Sp20 1 "Databases"
 INSERT INTO Class(course_number, term, section_number, num_credits, description)
@@ -86,3 +113,85 @@ WHERE course_number='CS410' AND term='SP20' AND section_number='1';
 -- show-class shows the currently-active class
 SELECT * FROM Class
 WHERE term='SP20';
+
+--Category and Item Management---------------------------------------------------------
+
+-- show-categories – list the categories with their weights
+SELECT * FROM Categories;
+
+-- add-category "Name" weight – add a new category
+INSERT INTO Categories(name, weight)
+VALUES('Quiz', '10%');
+
+-- show-items – list the items with their point values, grouped by category
+SELECT name, point_value, category_name FROM Items
+GROUP BY id, category_name;
+
+-- add-item name "Category" "Description" points – add a new item
+INSERT INTO Items(name, category_name, description, point_value)
+VALUES('Quiz 2', 'Quiz', 'Second quiz of the semester', 10 );
+
+--Student Management----------------------------------------------------
+
+--add-student username studentid "Last, First" — adds a student and
+--enrolls them in the current class. If the student already exists, enroll them in the
+--class; if the name provided does not match their stored name, update the name
+--but print a warning that the name is being changed.
+
+-- If Student does not exist, then enroll them in the current class and
+-- add to the data base
+INSERT INTO Student(username, student_id, name, class_id)
+VALUES('Ben123', 4, 'Clark, Ben', 1);
+
+-- If the student does already exist, then add them to the class
+-- ? represents some username
+UPDATE Student
+SET class_id=1
+WHERE username = ?;
+
+--if the name provided does not match their stored name,
+--update the name, and print a warning
+UPDATE Student
+SET username = ? and name=?
+WHERE student_id = ?;
+
+-- add-student username — enrolls an already-existing student in the current
+-- class. If the specified student does not exist, report an error.
+UPDATE Student
+SET class_id = ?
+WHERE username = ?;
+
+--show-students – show all students in the current class
+SELECT * FROM Student
+WHERE class_id = 2; --lets say class_id 2 is the current class
+
+--show-students EKS – show all students with ‘EKS’ in their name or username
+--(case-insensitive)
+SELECT * FROM Student
+WHERE LOWER(username) LIKE ANY
+      (SELECT '%eks%' FROM Student
+          WHERE 'eks' IS NOT NULL) OR
+      LOWER(name) LIKE ANY
+      (SELECT '%eks%' FROM Student
+          WHERE 'eks' IS NOT NULL);
+
+
+-- grade itemname username 20 – assign a grade of 20 for student with user
+-- name ‘username’ for item ‘itemname’. If the student already has a grade for that
+-- item, replace it. If the number of points exceeds the number of points configured
+-- for the item, print a warning (showing the number of points configured).
+
+-- If student does not have a grade for that item
+INSERT INTO Student_Graded_Items(itemname, username, points)
+VALUES('?', '?', '?');
+
+-- If student does have a grade for that item, but needs to be updated
+UPDATE Student_Graded_Items
+SET points = '?'
+WHERE itemname = '?' AND username='?';
+
+--Grade Reporting--------------------------------------------------------------
+
+-- student-grades username – show student’s current grade: all items, visually
+-- grouped by category, with the student’s grade (if they have one). Show subtotals
+-- for each category, along with the overall grade in the class.
