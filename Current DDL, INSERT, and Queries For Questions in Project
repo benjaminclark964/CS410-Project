@@ -41,7 +41,7 @@ SELECT * FROM Class;
 
 --Student INSERT Statements
 INSERT INTO Student(username, student_id, name, class_id)
-VALUES('larry123', '1', 'Wheels, Larry', 1);
+VALUES('larry123', '1', 'Wheels, Larry', 2);
 
 INSERT INTO Student(username, student_id, name, class_id)
 VALUES('sarah123', '2', 'Nera, Sarah', 2);
