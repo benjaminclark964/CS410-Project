@@ -195,3 +195,36 @@ WHERE itemname = '?' AND username='?';
 -- student-grades username – show student’s current grade: all items, visually
 -- grouped by category, with the student’s grade (if they have one). Show subtotals
 -- for each category, along with the overall grade in the class.
+SELECT Student_Graded_Items.itemname, Categories.category_name, username, points, point_value,
+        (SELECT (student_points::float/total_points::float)*100 as current_grade FROM
+                            (SELECT SUM(points) as student_points, SUM(point_value) as total_points FROM Student_Graded_Items
+                            JOIN items i on Student_Graded_Items.itemname = i.itemname
+                            WHERE username = 'larry123') as grade) as current_grade
+FROM student_graded_items
+JOIN Items USING (itemname)
+JOIN Categories USING (category_name)
+WHERE username = 'larry123'
+GROUP BY grade_id, point_value, Categories.category_name;
+
+-- Current grade for class query
+SELECT (student_points::float/total_points::float)*100 as student_grade FROM
+                            (SELECT SUM(points) as student_points, SUM(point_value) as total_points FROM Student_Graded_Items
+                            JOIN items i on Student_Graded_Items.itemname = i.itemname
+                            WHERE username = 'larry123') as grade;
+
+-- gradebook – show the current class’s gradebook: students (username, student
+-- ID, and name), along with their total grades in the class
+SELECT username, student_id, name, (SELECT (student_points::float/total_points::float)*100 as student_grade FROM
+                            (SELECT SUM(points) as student_points, SUM(point_value) as total_points FROM Student_Graded_Items
+                            JOIN items i on Student_Graded_Items.itemname = i.itemname
+                            WHERE Student_Graded_Items.username = Student.username
+                            GROUP BY username) as grade) current_grade  --This is its own column
+FROM STUDENT
+WHERE class_id = 2;
+
+--grade of all students query
+SELECT (student_points::float/total_points::float)*100 as student_grade FROM
+                            (SELECT SUM(points) as student_points, SUM(point_value) as total_points FROM Student_Graded_Items
+                            JOIN items i on Student_Graded_Items.itemname = i.itemname
+                            WHERE username IS NOT NULL
+                            GROUP BY username) as grade;
