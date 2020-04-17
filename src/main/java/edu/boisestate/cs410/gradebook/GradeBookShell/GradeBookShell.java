@@ -28,8 +28,9 @@ public class GradeBookShell {
                 "GROUP BY course_number, class_id;";
         try(Statement stmt = db.createStatement();
             ResultSet rs = stmt.executeQuery(query)) {
+            System.out.format("Course Number | number of Students%n");
             while(rs.next()) {
-                System.out.format("%s | %s%n",
+                System.out.format("%s         | %s%n",
                         rs.getString(1),
                         rs.getString(2));
             }
