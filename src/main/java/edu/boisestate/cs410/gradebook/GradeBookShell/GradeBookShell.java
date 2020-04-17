@@ -7,10 +7,35 @@ import java.io.IOException;
 import java.sql.*;
 
 public class GradeBookShell {
-    private final Connection dbURL;
+    private final Connection db;
 
     public GradeBookShell(Connection connect) {
-        dbURL = connect;
+        db = connect;
+    }
+
+    @Command
+    public void newClass(String courseNumber, String semester, String sectionNumber,
+                         String description) {
+
+    }
+
+    @Command
+    public void showClass() throws SQLException {
+        String query = "SELECT * FROM Class\n" +
+                "WHERE term='SP20';";
+        try(Statement stmt = db.createStatement();
+            ResultSet rs = stmt.executeQuery(query)) {
+
+            while(rs.next()) {
+                System.out.format("%s %s %s %s %s%n",
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6)
+                        );
+            }
+        }
     }
 
     public static void main(String[] args) throws SQLException, IOException {
