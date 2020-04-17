@@ -67,6 +67,21 @@ public class GradeBookShell {
         }
     }
 
+    @Command
+    public void listClasses() throws SQLException {
+        String query = "SELECT course_number as class, COUNT(Student.class_id) as num_students FROM Class\n" +
+                "JOIN Student USING (class_id)\n" +
+                "GROUP BY course_number, class_id;";
+        try(Statement stmt = db.createStatement();
+        ResultSet rs = stmt.executeQuery(query)) {
+            while(rs.next()) {
+                System.out.format("%s | %s%n",
+                        rs.getString(1),
+                        rs.getString(2));
+            }
+        }
+    }
+
     public static void main(String[] args) throws SQLException, IOException {
         String dbURL = args[0];
         System.out.println(dbURL);
