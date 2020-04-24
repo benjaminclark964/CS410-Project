@@ -197,6 +197,39 @@ public class GradeBookShell {
         }
     }
 
+    @Command
+    public void addItem(String itemName, String categoryName, String description, int pointValue) throws SQLException {
+        String query = "INSERT INTO Items(itemname, category_name, description, point_value)\n" +
+                "VALUES(?, ?, ?, ?);";
+
+        int itemId;
+        db.setAutoCommit(false);
+
+        try{
+            try(PreparedStatement stmt = db.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+                stmt.setString(1, itemName);
+                stmt.setString(2, categoryName);
+                stmt.setString(3, description);
+                stmt.setInt(4, pointValue);
+                stmt.executeUpdate();
+
+                try(ResultSet rs = stmt.getGeneratedKeys()) {
+                    if(!rs.next()) {
+                        throw new RuntimeException("No generated keys?");
+                    }
+                    itemId = rs.getInt(1);
+                    System.out.format("Creating new item %d%n", itemId);
+                }
+            }
+
+        } catch(SQLException | RuntimeException e) {
+            db.rollback();
+            throw e;
+        } finally {
+            db.setAutoCommit(true);
+        }
+    }
+
     //Student Management--------------------------------------------------------------
 
 
