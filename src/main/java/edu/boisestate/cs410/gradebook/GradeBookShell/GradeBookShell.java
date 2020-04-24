@@ -153,6 +153,36 @@ public class GradeBookShell {
     }
 
     @Command
+    public void addCategory(String categoryName, String categoryWeight) throws SQLException {
+        String query = "INSERT INTO Categories(category_name, weight)\n" +
+                "VALUES(?, ?);";
+
+        int categoryId;
+        db.setAutoCommit(false);
+
+        try {
+            try (PreparedStatement stmt = db.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+                stmt.setString(1, categoryName);
+                stmt.setString(2, categoryWeight);
+                stmt.executeUpdate();
+
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+                    if (!rs.next()) {
+                        throw new RuntimeException("No generated keys?");
+                    }
+                    categoryId = rs.getInt(1);
+                    System.out.format("Creating category %d%n", categoryId);
+                }
+            }
+        } catch (SQLException | RuntimeException e) {
+            db.rollback();
+            throw e;
+        } finally {
+            db.setAutoCommit(true);
+        }
+    }
+
+    @Command
     public void showItems() throws SQLException {
         String query = "SELECT itemname, point_value FROM Items\n" +
                 "GROUP BY id, category_name;";
@@ -175,7 +205,7 @@ public class GradeBookShell {
 
     public static void main(String[] args) throws SQLException, IOException {
         String dbURL = args[0];
-        System.out.println(dbURL);
+
         try(Connection connect = DriverManager.getConnection("jdbc:" + dbURL)) {
             GradeBookShell shell = new GradeBookShell(connect);
             ShellFactory.createConsoleShell("grade-manager", "", shell).commandLoop();
