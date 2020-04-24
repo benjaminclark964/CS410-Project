@@ -200,7 +200,7 @@ public class GradeBookShell {
     @Command
     public void addItem(String itemName, String categoryName, String description, int pointValue) throws SQLException {
         String query = "INSERT INTO Items(itemname, category_name, description, point_value)\n" +
-                "VALUES(?, ?, ?, ?);";
+                "VALUES(?, ?, '?', ?);";
 
         int itemId;
         db.setAutoCommit(false);
@@ -232,6 +232,26 @@ public class GradeBookShell {
 
     //Student Management--------------------------------------------------------------
 
+    @Command
+    public void showStudents() throws SQLException {
+        String query = "SELECT * FROM Student\n" +
+                "WHERE class_id = ?;";
+        int currentClass = 2;
+
+        try(PreparedStatement stmt = db.prepareStatement(query)) {
+            stmt.setInt(1,currentClass);
+
+            try(ResultSet rs = stmt.executeQuery()) {
+                while(rs.next()) {
+                    System.out.format("%s | %d | %s | %d%n",
+                            rs.getString(1),
+                            rs.getInt(2),
+                            rs.getString(3),
+                            rs.getInt(4));
+                }
+            }
+        }
+    }
 
     //Grade Reporting-----------------------------------------------------------------
 
