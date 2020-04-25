@@ -200,7 +200,7 @@ public class GradeBookShell {
     @Command
     public void addItem(String itemName, String categoryName, String description, int pointValue) throws SQLException {
         String query = "INSERT INTO Items(itemname, category_name, description, point_value)\n" +
-                "VALUES(?, ?, '?', ?);";
+                "VALUES(?, ?, ?, ?);";
 
         int itemId;
         db.setAutoCommit(false);
@@ -248,6 +248,29 @@ public class GradeBookShell {
                             rs.getInt(2),
                             rs.getString(3),
                             rs.getInt(4));
+                }
+            }
+        }
+    }
+
+    @Command
+    public void showStudents(String subName) throws SQLException {
+        String query = "SELECT * FROM student\n" +
+                "WHERE LOWER(username) LIKE '%' || ? || '%'\n" +
+                "OR LOWER(name) LIKE '%' || ? || '%';";
+
+        try(PreparedStatement stmt = db.prepareStatement(query)) {
+            stmt.setString(1, subName);
+            stmt.setString(2, subName);
+
+            try(ResultSet rs = stmt.executeQuery()) {
+                while(rs.next()) {
+                    System.out.format("%s | %d | %s | %d%n",
+                            rs.getString(1),
+                            rs.getInt(2),
+                            rs.getString(3),
+                            rs.getInt(4));
+
                 }
             }
         }
