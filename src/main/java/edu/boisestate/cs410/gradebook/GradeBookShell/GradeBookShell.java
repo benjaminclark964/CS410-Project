@@ -233,6 +233,42 @@ public class GradeBookShell {
     //Student Management--------------------------------------------------------------
 
     @Command
+    public void addStudent(String username, String studentID, String name) {
+        String newStudentQuery = "INSERT INTO Student(username, student_id, name, class_id)\n" +
+                "VALUES(?, ?, ?, ?);";
+        String studentExistsQuery = "UPDATE Student\n" +
+                "SET class_id=1\n" +
+                "WHERE username = ?;";
+        String nameDoesNotMatchStoredNameQuery = "UPDATE Student\n" +
+                "SET username = ? and name=?\n" +
+                "WHERE student_id = ?;";
+    }
+
+    @Command
+    public void addStudent(String username) throws SQLException {
+        String query = "UPDATE Student\n" +
+                "SET class_id = ?\n" +
+                "WHERE username = ?;";
+
+        int currentClassID = 2;
+        db.setAutoCommit(false);
+
+        try {
+            try (PreparedStatement stmt = db.prepareStatement(query)) {
+                stmt.setInt(1, currentClassID);
+                stmt.setString(2, username);
+                int row = stmt.executeUpdate();
+                System.out.format("Updated " + username + " to class " + currentClassID + "%n");
+            }
+        } catch(SQLException | RuntimeException e) {
+            db.rollback();
+            throw e;
+        } finally {
+            db.setAutoCommit(true);
+        }
+    }
+
+    @Command
     public void showStudents() throws SQLException {
         String query = "SELECT * FROM Student\n" +
                 "WHERE class_id = ?;";
@@ -270,7 +306,6 @@ public class GradeBookShell {
                             rs.getInt(2),
                             rs.getString(3),
                             rs.getInt(4));
-
                 }
             }
         }
