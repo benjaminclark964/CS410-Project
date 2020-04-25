@@ -233,15 +233,74 @@ public class GradeBookShell {
     //Student Management--------------------------------------------------------------
 
     @Command
-    public void addStudent(String username, String studentID, String name) {
+    public void addStudent(String username, String studentID, String name) throws SQLException {
         String newStudentQuery = "INSERT INTO Student(username, student_id, name, class_id)\n" +
                 "VALUES(?, ?, ?, ?);";
         String studentExistsQuery = "UPDATE Student\n" +
-                "SET class_id=1\n" +
+                "SET class_id=?\n" +
                 "WHERE username = ?;";
+        String checkIfNameExistsQuery = "SELECT * FROM student\n" +
+                "WHERE name = ?;";
         String nameDoesNotMatchStoredNameQuery = "UPDATE Student\n" +
-                "SET username = ? and name=?\n" +
-                "WHERE student_id = ?;";
+                "SET name=?\n" +
+                "WHERE username = ?;";
+
+
+        int currentClassID = 2;
+        db.setAutoCommit(false);
+
+        try {
+            try(PreparedStatement stmt = db.prepareStatement(newStudentQuery)) {
+                stmt.setString(1, username);
+                stmt.setString(2, studentID);
+                stmt.setString(3, name);
+                stmt.setInt(4, currentClassID);
+                stmt.executeUpdate();
+                System.out.format("Added new Student " + username + " to class " + currentClassID + "%n");
+            }
+
+        } catch(SQLException | RuntimeException e) {
+            db.rollback();
+
+            String usernameExistError = "ERROR: duplicate key value violates unique constraint \"student_username_key\"\n" ;
+            String nameDoesExistsError = "ERROR: duplicate key value violates unique constraint \"student_pkey\"\n";
+
+            if(e.toString().contains(usernameExistError)) {
+                try(PreparedStatement stmt = db.prepareStatement(studentExistsQuery)) {
+                    stmt.setInt(1, currentClassID);
+                    stmt.setString(2, username);
+                    stmt.executeUpdate();
+                    System.out.println("Added student " + username + " to class " + currentClassID);
+
+                    try(PreparedStatement stmt2 = db.prepareStatement(checkIfNameExistsQuery)) {
+                        stmt2.setString(1, name);
+
+                        try(ResultSet rs = stmt2.executeQuery()) {
+                            if(!rs.next()) {
+                                try(PreparedStatement stmt3 = db.prepareStatement(nameDoesNotMatchStoredNameQuery)) {
+                                    stmt3.setString(1, name);
+                                    stmt3.setString(2, username);
+                                    stmt3.executeUpdate();
+                                    System.err.println("Warning: Original name was changed");
+                                }
+                            }
+                        }
+                    }
+                }
+            } else if(e.toString().contains(nameDoesExistsError)){
+               try(PreparedStatement stmt = db.prepareStatement(nameDoesNotMatchStoredNameQuery)) {
+                    stmt.setString(1, name);
+                    stmt.setString(2, username);
+                    stmt.executeUpdate();
+                    System.err.println("Warning: Original name was changed");
+               }
+            } else {
+                System.out.println(e.toString());
+            }
+
+        } finally {
+            db.setAutoCommit(true);
+        }
     }
 
     @Command
