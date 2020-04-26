@@ -370,6 +370,66 @@ public class GradeBookShell {
         }
     }
 
+    @Command
+    public void grade(String itemName, String username, int pointValue) throws SQLException {
+        String newGradeQuery = "INSERT INTO Student_Graded_Items(itemname, username, points)\n" +
+                "VALUES(?, ?, ?);";
+        String updateGradeQuery = "UPDATE Student_Graded_Items\n" +
+                "SET points = ?\n" +
+                "WHERE itemname = ? AND username= ?;";
+
+        db.setAutoCommit(false);
+        try {
+            try(PreparedStatement stmt = db.prepareStatement(newGradeQuery, Statement.RETURN_GENERATED_KEYS)) {
+                stmt.setString(1, itemName);
+                stmt.setString(2, username);
+                stmt. setInt(3, pointValue);
+                stmt.executeUpdate();
+                System.out.format("Added grade for " + username + " on " + itemName + " Score: " + pointValue + "%n");
+                if(pointValue > getPointValueOfItem(itemName)) {
+                    System.err.println("Warning: point value " + pointValue + " exceeds maximum");
+                }
+            }
+
+        } catch(SQLException | RuntimeException e) {
+            db.rollback();
+            String updateGrade = "ERROR: duplicate key value violates unique constraint \"student_graded_items_pkey\"";
+
+            if(e.toString().contains(updateGrade)) {
+                try(PreparedStatement stmt = db.prepareStatement(updateGradeQuery)) {
+                    stmt.setInt(1, pointValue);
+                    stmt.setString(2, itemName);
+                    stmt.setString(3, username);
+                    stmt.executeUpdate();
+                    System.out.format("Updated " + username + " score on " + itemName + " to " + pointValue + "%n");
+                    if(pointValue > getPointValueOfItem(itemName)) {
+                        System.err.println("Warning: point value " + pointValue + " exceeds maximum");
+                    }
+                }
+            }
+        } finally {
+            db.setAutoCommit(true);
+        }
+    }
+
+    public int getPointValueOfItem(String itemName) throws SQLException{
+        String query = "SELECT point_value FROM items\n" +
+                "WHERE itemname = ?;";
+        int pointValue = 0;
+
+        try(PreparedStatement stmt = db.prepareStatement(query)) {
+            stmt.setString(1, itemName);
+            try(ResultSet rs = stmt.executeQuery()) {
+                if(rs.next()) {
+                    pointValue = rs.getInt(1);
+                }
+            }
+        } catch(Exception e) {
+            throw e;
+        }
+        return pointValue;
+    }
+
     //Grade Reporting-----------------------------------------------------------------
 
 
