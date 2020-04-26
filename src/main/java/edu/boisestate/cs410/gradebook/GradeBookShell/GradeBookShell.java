@@ -13,7 +13,7 @@ public class GradeBookShell {
         db = connect;
     }
 
-    //Class Management----------------------------------------------------------------
+    //Class Management--------------------------------------------------------------------------------------------------
 
     @Command
     public void newClass(String courseNumber, String semester, String sectionNumber,
@@ -116,7 +116,6 @@ public class GradeBookShell {
         }
     }
 
-
     @Command
     public void showClass() throws SQLException {
         String query = "SELECT * FROM Class\n" +
@@ -136,7 +135,7 @@ public class GradeBookShell {
         }
     }
 
-    //Category and Item Management-----------------------------------------------------
+    //Category and Item Management--------------------------------------------------------------------------------------
 
     @Command
     public void showCategories() throws SQLException {
@@ -230,7 +229,7 @@ public class GradeBookShell {
         }
     }
 
-    //Student Management--------------------------------------------------------------
+    //Student Management------------------------------------------------------------------------------------------------
 
     @Command
     public void addStudent(String username, String studentID, String name) throws SQLException {
@@ -437,7 +436,7 @@ public class GradeBookShell {
         return pointValue;
     }
 
-    //Grade Reporting-----------------------------------------------------------------
+    //Grade Reporting---------------------------------------------------------------------------------------------------
 
     @Command
     public void studentGrades(String username) throws SQLException{
@@ -495,7 +494,7 @@ public class GradeBookShell {
         }
     }
 
-
+//Main Method ----------------------------------------------------------------------------------------------------------
     public static void main(String[] args) throws SQLException, IOException {
         String dbURL = args[0];
 

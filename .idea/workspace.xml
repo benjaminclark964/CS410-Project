@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ef414fdf-7653-408b-ba73-5673db441e66" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Current DDL, INSERT, and Queries For Questions in Project" beforeDir="false" afterPath="$PROJECT_DIR$/Current DDL, INSERT, and Queries For Questions in Project" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/boisestate/cs410/gradebook/GradeBookShell/GradeBookShell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/boisestate/cs410/gradebook/GradeBookShell/GradeBookShell.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +87,7 @@
       <workItem from="1587831129063" duration="2972000" />
       <workItem from="1587848074950" duration="7083000" />
       <workItem from="1587870335573" duration="4577000" />
-      <workItem from="1587933576718" duration="1792000" />
+      <workItem from="1587933576718" duration="2017000" />
     </task>
     <task id="LOCAL-00001" summary="target folder">
       <created>1587234434208</created>
