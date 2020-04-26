@@ -412,6 +412,13 @@ public class GradeBookShell {
         }
     }
 
+    /**
+     * Gets the point value of a item
+     * 
+     * @param itemName name of item to check point value
+     * @return point value of item
+     * @throws SQLException
+     */
     public int getPointValueOfItem(String itemName) throws SQLException{
         String query = "SELECT point_value FROM items\n" +
                 "WHERE itemname = ?;";
