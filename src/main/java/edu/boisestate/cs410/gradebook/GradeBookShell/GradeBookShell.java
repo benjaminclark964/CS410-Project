@@ -414,7 +414,7 @@ public class GradeBookShell {
 
     /**
      * Gets the point value of a item
-     * 
+     *
      * @param itemName name of item to check point value
      * @return point value of item
      * @throws SQLException
@@ -438,6 +438,62 @@ public class GradeBookShell {
     }
 
     //Grade Reporting-----------------------------------------------------------------
+
+    @Command
+    public void studentGrades(String username) throws SQLException{
+        String query = "SELECT Student_Graded_Items.itemname, Categories.category_name, username, points as grade, point_value,\n" +
+                "        (SELECT (student_points::float/total_points::float)*100 as current_grade FROM\n" +
+                "                            (SELECT SUM(points) as student_points, SUM(point_value) as total_points FROM Student_Graded_Items\n" +
+                "                            JOIN items i on Student_Graded_Items.itemname = i.itemname\n" +
+                "                            WHERE username = ?) as grade) as current_grade\n" +
+                "FROM student_graded_items\n" +
+                "JOIN Items USING (itemname)\n" +
+                "JOIN Categories USING (category_name)\n" +
+                "WHERE username = ?\n" +
+                "GROUP BY (Student_Graded_Items.itemname, username), point_value, Categories.category_name;";
+
+        try(PreparedStatement stmt = db.prepareStatement(query)) {
+            stmt.setString(1, username);
+            stmt.setString(2, username);
+
+            try(ResultSet rs = stmt.executeQuery()) {
+                while(rs.next()) {
+                    System.out.format("%s | %s | %s | %d | %d | %f%n",
+                            rs.getString(1),
+                            rs.getString(2),
+                            rs.getString(3),
+                            rs.getInt(4),
+                            rs.getInt(5),
+                            rs.getDouble(6));
+                }
+            }
+        }
+    }
+
+    @Command
+    public void gradebook() throws SQLException {
+        String query = "SELECT username, student_id, name, (SELECT (student_points::float/total_points::float)*100 as student_grade FROM\n" +
+                "                            (SELECT SUM(points) as student_points, SUM(point_value) as total_points FROM Student_Graded_Items\n" +
+                "                            JOIN items i on Student_Graded_Items.itemname = i.itemname\n" +
+                "                            WHERE Student_Graded_Items.username = Student.username\n" +
+                "                            GROUP BY username) as grade) current_grade  --This is its own column\n" +
+                "FROM STUDENT\n" +
+                "WHERE class_id = ?;";
+        int currentClassID = 2;
+        try(PreparedStatement stmt = db.prepareStatement(query)) {
+            stmt.setInt(1, currentClassID);
+
+            try(ResultSet rs = stmt.executeQuery()) {
+                while(rs.next()) {
+                    System.out.format("%s | %s | %s | %f%n",
+                            rs.getString(1),
+                            rs.getString(2),
+                            rs.getString(3),
+                            rs.getDouble(4));
+                }
+            }
+        }
+    }
 
 
     public static void main(String[] args) throws SQLException, IOException {
