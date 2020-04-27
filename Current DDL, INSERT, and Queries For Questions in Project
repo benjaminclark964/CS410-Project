@@ -93,7 +93,7 @@ VALUES('CS410', 'SP20', '1', 'Databases');
 
 -- List classes, with the # of students in each: list-classes
 SELECT course_number as class, COUNT(Student.class_id) as num_students FROM Class
-JOIN Student USING (class_id)
+LEFT JOIN Student USING (class_id)
 GROUP BY course_number, class_id;
 
 -- select-class CS410 selects the only section of CS410 in the most recent
@@ -196,11 +196,7 @@ WHERE itemname = '?' AND username='?';
 -- grouped by category, with the student’s grade (if they have one). Show subtotals
 -- for each category, along with the overall grade in the class.
 
-SELECT Student_Graded_Items.itemname, Categories.category_name, username, points as grade, point_value,
-        (SELECT (student_points::float/total_points::float)*100 as current_grade FROM
-                            (SELECT SUM(points) as student_points, SUM(point_value) as total_points FROM Student_Graded_Items
-                            JOIN items i on Student_Graded_Items.itemname = i.itemname
-                            WHERE username = 'larry123') as grade) as current_grade
+SELECT Student_Graded_Items.itemname, Categories.category_name, username, points as grade, point_value
 FROM student_graded_items
 JOIN Items USING (itemname)
 JOIN Categories USING (category_name)
