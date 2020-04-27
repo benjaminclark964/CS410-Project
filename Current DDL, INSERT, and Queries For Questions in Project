@@ -2,7 +2,7 @@
 
 -- Create Table Statements
 CREATE TABLE Class(class_id SERiAL PRIMARY KEY UNIQUE, course_number VARCHAR(20) NOT NULL,
- term VARCHAR(20) NOT NULL, section_number VARCHAR(20) NOT NULL, num_credits INTEGER, description TEXT);
+ term VARCHAR(20) NOT NULL, section_number VARCHAR(20) NOT NULL, description TEXT);
 
 CREATE TABLE Student(username VARCHAR(100) NOT NULL UNIQUE, student_id VARCHAR(9) PRIMARY KEY UNIQUE,
 name VARCHAR(100) NOT NULL, class_id INTEGER REFERENCES class(class_id));
@@ -31,11 +31,11 @@ VALUES('Quiz', '10%');
 SELECT * FROM Categories;
 
 -- Class INSERT Statements
-INSERT INTO Class(course_number, term, section_number, num_credits, description)
-VALUES('CS410', 'SP20', '1', 3, 'Databases');
+INSERT INTO Class(course_number, term, section_number, description)
+VALUES('CS410', 'SP20', '1', 'Databases');
 
-INSERT INTO Class(course_number, term, section_number, num_credits, description)
-VALUES('CS510', 'SP20', '1', 3, 'Databases for Graduates');
+INSERT INTO Class(course_number, term, section_number, description)
+VALUES('CS510', 'SP20', '1', 'Databases for Graduates');
 
 SELECT * FROM Class;
 
@@ -88,8 +88,8 @@ SELECT * FROM Student_Graded_Items;
 --Class Management---------------------------------------------------------------
 
 -- Create a class: new-class CS410 Sp20 1 "Databases"
-INSERT INTO Class(course_number, term, section_number, num_credits, description)
-VALUES('CS410', 'SP20', '1', 3, 'Databases');
+INSERT INTO Class(course_number, term, section_number, description)
+VALUES('CS410', 'SP20', '1', 'Databases');
 
 -- List classes, with the # of students in each: list-classes
 SELECT course_number as class, COUNT(Student.class_id) as num_students FROM Class

@@ -18,6 +18,8 @@ public class GradeBookShell {
     @Command
     public void newClass(String courseNumber, String semester, String sectionNumber,
                          String description) {
+        String query = "INSERT INTO Class(course_number, term, section_number, description)\n" +
+                "VALUES('CS410', 'SP20', '1', 'Databases');";
 
     }
 
@@ -112,7 +114,6 @@ public class GradeBookShell {
                             rs.getString(6));
                 }
             }
-
         }
     }
 
@@ -129,8 +130,7 @@ public class GradeBookShell {
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
-                        rs.getString(6)
-                        );
+                        rs.getString(6));
             }
         }
     }
