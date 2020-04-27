@@ -468,30 +468,39 @@ public class GradeBookShell {
 
     @Command
     public void studentGrades(String username) throws SQLException{
-        String query = "SELECT Student_Graded_Items.itemname, Categories.category_name, username, points as grade, point_value,\n" +
-                "        (SELECT (student_points::float/total_points::float)*100 as current_grade FROM\n" +
-                "                            (SELECT SUM(points) as student_points, SUM(point_value) as total_points FROM Student_Graded_Items\n" +
-                "                            JOIN items i on Student_Graded_Items.itemname = i.itemname\n" +
-                "                            WHERE username = ?) as grade) as current_grade\n" +
+        String query = "SELECT Student_Graded_Items.itemname, Categories.category_name, username, points as grade, point_value\n" +
                 "FROM student_graded_items\n" +
                 "JOIN Items USING (itemname)\n" +
                 "JOIN Categories USING (category_name)\n" +
                 "WHERE username = ?\n" +
                 "GROUP BY (Student_Graded_Items.itemname, username), point_value, Categories.category_name;";
 
+        String totalGradeQuery = "SELECT (student_points::float/total_points::float)*100 as student_grade FROM\n" +
+                "                            (SELECT SUM(points) as student_points, SUM(point_value) as total_points FROM Student_Graded_Items\n" +
+                "                            JOIN items i on Student_Graded_Items.itemname = i.itemname\n" +
+                "                            WHERE username = ?) as grade;";
+
         try(PreparedStatement stmt = db.prepareStatement(query)) {
             stmt.setString(1, username);
-            stmt.setString(2, username);
 
             try(ResultSet rs = stmt.executeQuery()) {
                 while(rs.next()) {
-                    System.out.format("%s | %s | %s | %d | %d | %f%n",
+                    System.out.format("%s | %s | %s | %d | %d%n",
                             rs.getString(1),
                             rs.getString(2),
                             rs.getString(3),
                             rs.getInt(4),
-                            rs.getInt(5),
-                            rs.getDouble(6));
+                            rs.getInt(5));
+                }
+            }
+            try(PreparedStatement stmt2 = db.prepareStatement(totalGradeQuery)) {
+                stmt2.setString(1, username);
+
+                try(ResultSet rs2 = stmt2.executeQuery()) {
+                    if(rs2.next()) {
+                        System.out.format("Total Grade:%n" + "%f%n",
+                                rs2.getDouble(1));
+                    }
                 }
             }
         }
