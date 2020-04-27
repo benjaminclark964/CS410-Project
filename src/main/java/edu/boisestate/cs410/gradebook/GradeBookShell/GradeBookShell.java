@@ -17,16 +17,44 @@ public class GradeBookShell {
 
     @Command
     public void newClass(String courseNumber, String semester, String sectionNumber,
-                         String description) {
+                         String description) throws SQLException {
         String query = "INSERT INTO Class(course_number, term, section_number, description)\n" +
-                "VALUES('CS410', 'SP20', '1', 'Databases');";
+                "VALUES(?, ?, ?, ?);";
+
+        db.setAutoCommit(false);
+        try {
+            try(PreparedStatement stmt = db.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+                stmt.setString(1, courseNumber);
+                stmt.setString(2, semester);
+                stmt.setString(3, sectionNumber);
+                stmt.setString(4, description);
+                stmt.executeUpdate();
+                int classID;
+
+                try(ResultSet rs = stmt.getGeneratedKeys()) {
+                    if(rs.next()) {
+                        classID = rs.getInt(1);
+                        System.out.println("Class " + courseNumber + " in semester " + semester +
+                                " with section number " + sectionNumber + " created");
+                    } else {
+                        System.err.println("No generated keys???");
+                    }
+                }
+            }
+        } catch(SQLException | RuntimeException e) {
+            db.rollback();
+            throw e;
+        } finally {
+            db.setAutoCommit(true);
+        }
+
 
     }
 
     @Command
     public void listClasses() throws SQLException {
         String query = "SELECT course_number as class, COUNT(Student.class_id) as num_students FROM Class\n" +
-                "JOIN Student USING (class_id)\n" +
+                "LEFT JOIN Student USING (class_id)\n" +
                 "GROUP BY course_number, class_id;";
         try(Statement stmt = db.createStatement();
             ResultSet rs = stmt.executeQuery(query)) {
