@@ -58,11 +58,13 @@ public class GradeBookShell {
                 "GROUP BY course_number, class_id;";
         try(Statement stmt = db.createStatement();
             ResultSet rs = stmt.executeQuery(query)) {
-            System.out.format("Course Number | number of Students%n");
+            System.out.format("Course Number | Number of Students%n" +
+                    "----------------------------------%n");
             while(rs.next()) {
                 System.out.format("%s         | %s%n",
                         rs.getString(1),
                         rs.getString(2));
+                System.out.format("----------------------------------%n");
             }
         }
     }
@@ -75,16 +77,17 @@ public class GradeBookShell {
             stmt.setString(1, courseNumber);
             try(ResultSet rs = stmt.executeQuery()) {
                 int numSections = 0;
+                System.out.format("Class_id | Course_Number | Term | Section_Number | Description%n" +
+                        "---------------------------------------------------------------%n");
                 while(rs.next()) {
                     numSections++;
                     if(numSections < 2) {
-                        System.out.format("%d %s %s %s %d %s%n",
+                        System.out.format("%d        | %s         | %s | %s              | \"%s\"%n",
                                 rs.getInt(1),
                                 rs.getString(2),
                                 rs.getString(3),
                                 rs.getString(4),
-                                rs.getInt(5),
-                                rs.getString(6));
+                                rs.getString(5));
                     } else {
                         System.err.println("ERROR: Only one section should exist");
                         return;
@@ -103,16 +106,17 @@ public class GradeBookShell {
             stmt.setString(2, term);
             try(ResultSet rs = stmt.executeQuery()) {
                 int numSections = 0;
+                System.out.format("Class_id | Course_Number | Term | Section_Number | Description%n" +
+                        "---------------------------------------------------------------%n");
                 while(rs.next()) {
                     numSections++;
                     if(numSections < 2) {
-                        System.out.format("%d %s %s %s %d %s%n",
+                        System.out.format("%d        | %s         | %s | %s              | \"%s\"%n",
                                 rs.getInt(1),
                                 rs.getString(2),
                                 rs.getString(3),
                                 rs.getString(4),
-                                rs.getInt(5),
-                                rs.getString(6));
+                                rs.getString(5));
                     } else {
                         System.err.println("ERROR: Only one section should exist");
                         return;
@@ -133,13 +137,14 @@ public class GradeBookShell {
 
             try(ResultSet rs = stmt.executeQuery()) {
                 if(rs.next()) {
-                    System.out.format("%d %s %s %s %d %s%n",
+                    System.out.format("Class_id | Course_Number | Term | Section_Number | Description%n" +
+                            "---------------------------------------------------------------%n");
+                    System.out.format("%d        | %s         | %s | %s              | \"%s\"%n",
                             rs.getInt(1),
                             rs.getString(2),
                             rs.getString(3),
                             rs.getString(4),
-                            rs.getInt(5),
-                            rs.getString(6));
+                            rs.getString(5));
                 }
             }
         }
@@ -151,14 +156,15 @@ public class GradeBookShell {
                 "WHERE term='SP20';";
         try(Statement stmt = db.createStatement();
             ResultSet rs = stmt.executeQuery(query)) {
-
+            System.out.format("Course_Number | Term | Section_Number | Description%n" +
+                    "----------------------------------------------------%n");
             while(rs.next()) {
-                System.out.format("%s %s %s %s %s%n",
+                System.out.format("%s         | %s | %s              | \"%s\"%n",
                         rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),
-                        rs.getString(5),
-                        rs.getString(6));
+                        rs.getString(5));
+                System.out.format("----------------------------------------------------%n");
             }
         }
     }
@@ -171,8 +177,10 @@ public class GradeBookShell {
         try(Statement stmt = db.createStatement();
             ResultSet rs = stmt.executeQuery(query)) {
 
+            System.out.format("Category  | Weight%n" +
+                    "------------------%n");
             while(rs.next()) {
-                System.out.format("%s %s%n",
+                System.out.format("%s%n%s%n------%n",
                         rs.getString(2),
                         rs.getString(3));
             }
@@ -215,11 +223,13 @@ public class GradeBookShell {
                 "GROUP BY id, category_name;";
         try (Statement stmt = db.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
-
+            System.out.format("Item_Name | Points%n" +
+                    "------------------%n");
             while (rs.next()) {
-                System.out.format("%s | %s%n",
+                System.out.format("\"%s\"%n%s%n",
                         rs.getString(1),
                         rs.getString(2));
+                System.out.format("------------------%n");
             }
         }
     }
@@ -364,12 +374,15 @@ public class GradeBookShell {
             stmt.setInt(1,currentClass);
 
             try(ResultSet rs = stmt.executeQuery()) {
+                System.out.format("Username | Student_ID | Name | Class_ID%n" +
+                        "---------------------------------------%n");
                 while(rs.next()) {
                     System.out.format("%s | %d | %s | %d%n",
                             rs.getString(1),
                             rs.getInt(2),
                             rs.getString(3),
                             rs.getInt(4));
+                    System.out.format("---------------------------------------%n");
                 }
             }
         }
@@ -386,12 +399,15 @@ public class GradeBookShell {
             stmt.setString(2, subName);
 
             try(ResultSet rs = stmt.executeQuery()) {
+                System.out.format("Username | Student_ID | Name | Class_ID%n" +
+                        "---------------------------------------%n");
                 while(rs.next()) {
                     System.out.format("%s | %d | %s | %d%n",
                             rs.getString(1),
                             rs.getInt(2),
                             rs.getString(3),
                             rs.getInt(4));
+                    System.out.format("---------------------------------------%n");
                 }
             }
         }
@@ -446,7 +462,7 @@ public class GradeBookShell {
      * @return point value of item
      * @throws SQLException
      */
-    public int getPointValueOfItem(String itemName) throws SQLException{
+    public int getPointValueOfItem(String itemName) throws SQLException {
         String query = "SELECT point_value FROM items\n" +
                 "WHERE itemname = ?;";
         int pointValue = 0;
@@ -484,13 +500,16 @@ public class GradeBookShell {
             stmt.setString(1, username);
 
             try(ResultSet rs = stmt.executeQuery()) {
+                System.out.format("Item_Name | Category | Username | Student_Score | Max_Score%n" +
+                        "-----------------------------------------------------------%n");
                 while(rs.next()) {
-                    System.out.format("%s | %s | %s | %d | %d%n",
+                    System.out.format("%s | %s  | %s  | %d  | %d%n",
                             rs.getString(1),
                             rs.getString(2),
                             rs.getString(3),
                             rs.getInt(4),
                             rs.getInt(5));
+                    System.out.format("-----------------------------------------------------------%n");
                 }
             }
             try(PreparedStatement stmt2 = db.prepareStatement(totalGradeQuery)) {
@@ -520,12 +539,15 @@ public class GradeBookShell {
             stmt.setInt(1, currentClassID);
 
             try(ResultSet rs = stmt.executeQuery()) {
+                System.out.format("Username | Student_ID | Name | Grade%n" +
+                        "-------------------------------------%n");
                 while(rs.next()) {
                     System.out.format("%s | %s | %s | %f%n",
                             rs.getString(1),
                             rs.getString(2),
                             rs.getString(3),
                             rs.getDouble(4));
+                    System.out.format("-------------------------------------%n");
                 }
             }
         }
