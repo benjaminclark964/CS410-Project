@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ef414fdf-7653-408b-ba73-5673db441e66" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/edu/boisestate/cs410/gradebook/GradeBookShell/GradeBookShell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/edu/boisestate/cs410/gradebook/GradeBookShell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/boisestate/cs410/gradebook/GradeBookShell/GradeBookShell.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,9 +53,15 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\nvrqu\IdeaProjects\Gradebook\src\java\edu\boisestate\cs410\gradebook" />
+      <recent name="C:\Users\nvrqu\IdeaProjects\Gradebook\src" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="GradeBookShell" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="edu.boisestate.cs410.gradebook.GradeBookShell.GradeBookShell" />
+      <option name="MAIN_CLASS_NAME" value="edu.boisestate.cs410.gradebook.GradeBookShell" />
       <module name="Gradebook" />
       <option name="PROGRAM_PARAMETERS" value="postgresql://localhost/&quot;Final Project&quot;?user=458313&amp;password=livetoskate117" />
       <method v="2">
@@ -91,7 +98,7 @@
       <workItem from="1587933576718" duration="3282000" />
       <workItem from="1588003142584" duration="4397000" />
       <workItem from="1588085355826" duration="4587000" />
-      <workItem from="1588094924008" duration="575000" />
+      <workItem from="1588094924008" duration="2250000" />
     </task>
     <task id="LOCAL-00001" summary="target folder">
       <created>1587234434208</created>
@@ -123,10 +130,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="436" y="271" key="#Scopes/0.0.1536.824@0.0.1536.824" timestamp="1587233640144" />
-    <state x="400" y="104" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588095370672">
+    <state x="400" y="104" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588097145937">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="400" y="104" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1588095370672" />
+    <state x="400" y="104" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1588097145937" />
     <state x="399" y="216" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1586704526821">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -135,26 +142,30 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="438" y="186" key="#com.intellij.ide.macro.MacrosDialog/0.0.1536.824@0.0.1536.824" timestamp="1586722788031" />
+    <state x="534" y="278" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1588097015585">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="534" y="278" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1536.824@0.0.1536.824" timestamp="1588097015585" />
     <state x="243" y="0" key="CommitChangelistDialog2" timestamp="1587234432584">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="243" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1587234432584" />
-    <state width="1024" height="211" key="GridCell.Tab.0.bottom" timestamp="1588095427919">
+    <state width="1493" height="208" key="GridCell.Tab.0.bottom" timestamp="1588097154084">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1024" height="211" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588095427919" />
-    <state width="1024" height="211" key="GridCell.Tab.0.center" timestamp="1588095427919">
+    <state width="1493" height="208" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588097154084" />
+    <state width="1493" height="208" key="GridCell.Tab.0.center" timestamp="1588097154084">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1024" height="211" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1588095427919" />
-    <state width="1024" height="211" key="GridCell.Tab.0.left" timestamp="1588095427919">
+    <state width="1493" height="208" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1588097154084" />
+    <state width="1493" height="208" key="GridCell.Tab.0.left" timestamp="1588097154084">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1024" height="211" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1588095427919" />
-    <state width="1024" height="211" key="GridCell.Tab.0.right" timestamp="1588095427919">
+    <state width="1493" height="208" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1588097154084" />
+    <state width="1493" height="208" key="GridCell.Tab.0.right" timestamp="1588097154084">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1024" height="211" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1588095427919" />
+    <state width="1493" height="208" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1588097154084" />
     <state width="1493" height="262" key="GridCell.Tab.1.bottom" timestamp="1587870303416">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -171,10 +182,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1493" height="262" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1587870303416" />
-    <state x="223" y="42" key="SettingsEditor" timestamp="1587236135533">
+    <state x="223" y="42" key="SettingsEditor" timestamp="1588096735151">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="223" y="42" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1587236135533" />
+    <state x="223" y="42" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1588096735151" />
     <state x="584" y="191" key="chooseDestDirectoryDialog" timestamp="1586723009557">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

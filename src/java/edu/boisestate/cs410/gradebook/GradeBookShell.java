@@ -1,4 +1,4 @@
-package edu.boisestate.cs410.gradebook.GradeBookShell;
+package edu.boisestate.cs410.gradebook;
 
 import com.budhash.cliche.Command;
 import com.budhash.cliche.ShellFactory;
