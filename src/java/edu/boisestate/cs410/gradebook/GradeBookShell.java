@@ -575,7 +575,8 @@ public class GradeBookShell {
                         if (commaCount > 0) {
                             commaCount = 0;
 
-                            if (!username.equals("username") && !points.equals("points")) {
+//                            if (!username.equals("username") && !points.equals("points")) {
+                            if(linelength > 1) {
                                 score = Integer.parseInt(points);
                                 db.setAutoCommit(false);
                                 try {
