@@ -557,8 +557,6 @@ public class GradeBookShell {
 
     @Command
     public void importGrades(String itemName, String csvName) throws SQLException {
-        String query = "INSERT INTO student_graded_items(itemname, username, points)\n" +
-                "VALUES(?, ?, ?);";
         String file = csvName;
         String columnValues = getValuesFromCSVFile(file);
 
@@ -574,27 +572,11 @@ public class GradeBookShell {
                     if (columnValues.toCharArray()[i] == ',' || columnValues.toCharArray()[i] == '\n') {
                         if (commaCount > 0) {
                             commaCount = 0;
-                            
+
                             if(linelength > 1) {
                                 score = Integer.parseInt(points);
-                                db.setAutoCommit(false);
-                                try {
-                                    try (PreparedStatement stmt = db.prepareStatement(query)) {
-                                        stmt.setString(1, itemName);
-                                        stmt.setString(2, username);
-                                        stmt.setInt(3, score);
-                                        stmt.executeUpdate();
-                                        System.out.println("Added grade for " + username + " on " + itemName + " score "
-                                                + score + "\n");
-                                    }
-                                } catch (SQLException | RuntimeException e) {
-                                    db.rollback();
-                                    throw e;
-                                } finally {
-                                    db.setAutoCommit(true);
-                                }
+                                grade(itemName, username, score);
                             }
-
                             username = "";
                             points = "";
                         }
@@ -631,6 +613,7 @@ public class GradeBookShell {
         }
         return retVal;
     }
+
 
 //Main Method ----------------------------------------------------------------------------------------------------------
     public static void main(String[] args) throws SQLException, IOException {
