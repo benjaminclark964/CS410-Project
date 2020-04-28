@@ -3,7 +3,7 @@ package edu.boisestate.cs410.gradebook;
 import com.budhash.cliche.Command;
 import com.budhash.cliche.ShellFactory;
 
-import java.io.IOException;
+import java.io.*;
 import java.sql.*;
 
 public class GradeBookShell {
@@ -551,6 +551,85 @@ public class GradeBookShell {
                 }
             }
         }
+    }
+
+    //Extra Credit -----------------------------------------------------------------------------------------------------
+
+    @Command
+    public void importGrades(String itemName, String csvName) throws SQLException {
+        String query = "INSERT INTO student_graded_items(itemname, username, points)\n" +
+                "VALUES(?, ?, ?);";
+        String file = csvName;
+        String columnValues = getValuesFromCSVFile(file);
+
+        int commaCount = 0;
+        int linelength = 0;
+        int i = 0;
+        String username = "";
+        String points = "";
+        while(linelength != columnValues.length()) {
+
+            int score = 0;
+            for(;i < columnValues.length(); i++) {
+                    if (columnValues.toCharArray()[i] == ',' || columnValues.toCharArray()[i] == '\n') {
+                        if (commaCount > 0) {
+                            commaCount = 0;
+
+                            if (!username.equals("username") && !points.equals("points")) {
+                                score = Integer.parseInt(points);
+                                db.setAutoCommit(false);
+                                try {
+                                    try (PreparedStatement stmt = db.prepareStatement(query)) {
+                                        stmt.setString(1, itemName);
+                                        stmt.setString(2, username);
+                                        stmt.setInt(3, score);
+                                        stmt.executeUpdate();
+                                        System.out.println("Added grade for " + username + " on " + itemName + " score "
+                                                + score + "\n");
+                                    }
+                                } catch (SQLException | RuntimeException e) {
+                                    db.rollback();
+                                    throw e;
+                                } finally {
+                                    db.setAutoCommit(true);
+                                }
+                            }
+
+                            username = "";
+                            points = "";
+                        }
+
+                        if (columnValues.toCharArray()[i] == ',') {
+                            commaCount++;
+                        }
+
+                        i++;
+                        break;
+                    }
+                    if (commaCount == 0) {
+                        username += columnValues.toCharArray()[i];
+                    } else {
+                        points += columnValues.toCharArray()[i];
+                    }
+                }
+            linelength++;
+            }
+    }
+
+    public String getValuesFromCSVFile(String csvname) {
+        String retVal = "";
+        String text = csvname;
+        try(BufferedReader br = new BufferedReader(new FileReader(text))) {
+            String line = "";
+            while((line = br.readLine()) != null) {
+                retVal += line;
+                retVal += '\n';
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return retVal;
     }
 
 //Main Method ----------------------------------------------------------------------------------------------------------
