@@ -72,9 +72,11 @@ public class GradeBookShell {
     @Command
     public void selectClass(String courseNumber) throws SQLException {
         String query = "SELECT * FROM Class\n" +
-                "WHERE course_number=? AND term='SP20';";
+                "WHERE course_number=? AND term=?;";
+        String latestTerm = getLatestTerm(courseNumber);
         try(PreparedStatement stmt = db.prepareStatement(query)) {
             stmt.setString(1, courseNumber);
+            stmt.setString(2, latestTerm);
             try(ResultSet rs = stmt.executeQuery()) {
                 int numSections = 0;
                 System.out.format("Class_id | Course_Number | Term | Section_Number | Description%n" +
@@ -95,6 +97,47 @@ public class GradeBookShell {
                 }
             }
         }
+    }
+
+    public String getLatestTerm(String course_number) throws SQLException {
+        String query = "SELECT term FROM Class\n" +
+                "WHERE course_number = ?;";
+        String latestTerm = "";
+
+        String newestTerm = "";
+        int newestYear = 0;
+        try(PreparedStatement stmt = db.prepareStatement(query)) {
+            stmt.setString(1, course_number);
+
+            try(ResultSet rs = stmt.executeQuery()) {
+                while(rs.next()) {
+                    String thisTerm = rs.getString(1);
+                    String term = "";
+                    String termYear = "";
+                    for(int i = 0; i < thisTerm.length(); i++) {
+                        if(i < 2) {
+                            term += thisTerm.toCharArray()[i];
+                        } else {
+                            termYear += thisTerm.toCharArray()[i];
+                        }
+                    }
+
+                    int termY = Integer.parseInt(termYear);
+                    if(termY > newestYear) {
+                        newestYear = termY;
+                    }
+
+                    if(newestTerm.equals("")) {
+                        newestTerm = term;
+                    } else if(newestTerm.equals("FA") && term.equals("SP")) {
+                        newestTerm = term;
+                    }
+
+                }
+            }
+        }
+        latestTerm = newestTerm + String.valueOf(newestYear);
+        return latestTerm;
     }
 
     @Command
